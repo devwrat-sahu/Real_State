@@ -27,7 +27,7 @@ import dj_database_url
 SECRET_KEY = config('django_secret_key')
 DEBUG = config('debug',default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ds-real-state.herokuapp.com']
 
 
 # Application definition
