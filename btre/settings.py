@@ -12,13 +12,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import configparser
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-config = configparser.RawConfigParser()
-configFilePath = r'F:\real_state\config.txt'
-config.read(configFilePath)
+from decouple import config, Csv
+import dj_database_url
 
 
 
@@ -26,12 +24,10 @@ config.read(configFilePath)
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get('my-config', 'django_secret_key')
+SECRET_KEY = config('django_secret_key')
+DEBUG = config('debug',default=True, cast=bool)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('allowed_host', cast=Csv())
 
 
 # Application definition
@@ -53,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,14 +82,11 @@ WSGI_APPLICATION = 'btre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME' : 'btredb',
-        'USER' : config.get('my-config', 'db_user'),
-        'PASSWORD' : config.get('my-config', 'db_password'),
-        'HOST' : 'localhost'
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
@@ -137,6 +131,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'btre/static')
 ]
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Media Folder settings
 
@@ -150,6 +145,6 @@ MESSAGE_TAGS = {
 
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER= config.get('my-config', 'gmail_id')
-EMAIL_HOST_PASSWORD= config.get('my-config', 'gmail_password')
+EMAIL_HOST_USER= config('gmail_id')
+EMAIL_HOST_PASSWORD= config('gmail_password')
 EMAIL_USE_TLS=True
