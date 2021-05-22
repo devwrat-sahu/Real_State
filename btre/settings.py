@@ -17,6 +17,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 from decouple import config, Csv
 import dj_database_url
+import cloudinary
+import cloudinary_storage
 
 
 
@@ -44,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +129,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('cloudinary_cloud_name'),
+    'API_KEY': config('cloudinary_api_key'),
+    'API_SECRET': config('cloudinary_api_secret'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR,'statis')
 STATIC_URL = '/static/'
