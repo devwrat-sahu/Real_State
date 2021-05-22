@@ -27,13 +27,13 @@ def contact(request):
 
         contact.save()
 
-        send_mail(
+        """send_mail(
             'property listing inquiry',
             'there has been an inquiry for ' + listing + '.Sign into admin panel for more info',
             'drivemovies.32@gmail.com',
             [realtor_email],
             fail_silently=False
-        )
+        )"""
 
         messages.success(request,'Your request has been submitted')
     return redirect('/listings/'+listing_id)
