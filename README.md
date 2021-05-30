@@ -2,7 +2,7 @@
 > A house/properties listing website for a dummy company designed with Bootstrap and the python framework Django.
 
 # Brief Description
-A website that contains propery listings for the dummy company named DS Real Estates that includes functionality for searching, adding realtors and a user registration and login sytem to allow users to search properties and make inquiries.
+A website that contains property listings for the dummy company named DS Real Estates that includes functionality for searching, adding realtors and a user registration and login sytem to allow users to search properties and make inquiries.
 
 # Demo
 [Click here](https://ds-real-state.herokuapp.com/) for live working demo. 
